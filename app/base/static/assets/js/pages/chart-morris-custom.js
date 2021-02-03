@@ -252,6 +252,7 @@ $(document).ready(function() {
         lineColors: ['#1de9b6', '#04a9f5']
     });
     // [ line-angle-chart ] end
+
     // [ line-smooth-chart ] start
     Morris.Line({
         element: 'morris-line-smooth-chart',
