@@ -28,10 +28,15 @@ def render_index():
 def get_training_para():
     if request.method == 'POST':
         results = request.form
+        experiment_id = results.get("experiment_ID")
+        subject_id = results.get("subject_ID")
+        date = results.get("date")
+
         force = float(results.get("input_force"))
         distance = float(results.get("input_distance"))
         time_window = float(results.get("input_time_window"))
 
+        print("Experiment ID: %s, Subject ID: %s, Date: %s" % (experiment_id, subject_id, date))
         print("Force: %.2f, distance: %.2f, time_window: %.2f" % (force, distance, time_window))
     return render_template('index.html')
 

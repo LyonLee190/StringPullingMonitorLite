@@ -6,7 +6,7 @@ $(document).ready(function() {
         element: 'morris-bar-chart',
         data: [{
                 y: '2008',
-                a: 50,
+                a: 70,
                 b: 40,
                 c: 35,
             },

@@ -1,6 +1,6 @@
 {% extends "layouts/base.html" %}
 
-{% block title %} Dashboard {% endblock %} 
+{% block title %} Dashboard {% endblock %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}
@@ -30,8 +30,28 @@
                                     <h5>Training Parameter</h5>
                                 </div>
                                 <form method="POST">
+                                    <div class="col-md-6" style="padding-left: 30px; padding-right: 30px; padding-top: 25px">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Experiment ID</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="experiment_ID" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                                        </div>
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Subject ID</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="subject_ID" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                                        </div>
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Date</span>
+                                            </div>
+                                            <input type="date" class="form-control" name="date" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value ="<?php echo date('Y-m-d') ?>" required>
+                                        </div>
+                                    </div>
                                     <div class="row">
-                                        <div class="col-md-6" style="padding-left: 30px">
+                                        <div class="col-md-6" style="padding-left: 30px; padding-right: 30px">
                                             <label for="force">Required Force</label>
                                             <input type="range" class="custom-range" min="0" max="64" step="0.01" id="force" onchange="updateInput('input_force', this.value);">
                                             <label for="distance">Required Distance</label>
@@ -39,7 +59,7 @@
                                             <label for="time_window">Allowable Time Window</label>
                                             <input type="range" class="custom-range" min="0" max="360" step="1" id="time_window" onchange="updateInput('input_time_window', this.value);">
                                         </div>
-                                        <div class="col-md-6" style="padding-right: 30px; padding-top: 25px">
+                                        <div class="col-md-6" style="padding-left: 30px; padding-right: 30px; padding-top: 25px">
                                             <div class="input-group input-group-sm mb-3">
                                                 <input type="number" name="input_force" id="input_force" min="0" max="64" step="0.01" value="32.00" onchange="updateInput('force', this.value);" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
                                                 <div class="input-group-prepend">
@@ -60,7 +80,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6" style="padding-left: 5px">
+                                    <div class="col-md-6">
                                         <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </form>
@@ -79,11 +99,11 @@
                             </div>
                         </div>
                         <!--[ Real Time Data ] end-->
-                        <!--[ Participant Info ] start-->
+                        <!--[ Subject Info ] start-->
                         <div class="col-xl-8 col-md-6">
                             <div class="card Recent-Users">
                                 <div class="card-header">
-                                    <h5>Participant Info</h5>
+                                    <h5>Subject Info</h5>
                                 </div>
                                 <div class="card-block px-0 py-3">
                                     <div class="table-responsive">
@@ -150,7 +170,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!--[ Participant Info ] end-->
+                        <!--[ Subject Info ] end-->
                     </div>
                     <!-- [ Main Content ] end -->
                 </div>
@@ -164,5 +184,5 @@
 {% block javascripts %}
     <script src="/static/assets/plugins/chart-morris/js/raphael.min.js"></script>
     <script src="/static/assets/plugins/chart-morris/js/morris.min.js"></script>
-    <script src="/static/assets/js/pages/chart-morris-custom.js"></script>
+    <script src="/static/assets/js/pages/bar-charts.js"></script>
 {% endblock javascripts %}
