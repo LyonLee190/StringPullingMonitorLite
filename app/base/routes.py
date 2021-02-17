@@ -2,6 +2,7 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
+import random
 
 from flask import jsonify, render_template, redirect, request, url_for
 from flask_login import (
@@ -39,6 +40,11 @@ def get_training_para():
         print("Experiment ID: %s, Subject ID: %s, Date: %s" % (experiment_id, subject_id, date))
         print("Force: %.2f, distance: %.2f, time_window: %.2f" % (force, distance, time_window))
     return render_template('index.html')
+
+@blueprint.route('/data_retrieve', methods=['GET'])
+def data_retrieve():
+
+    return jsonify(result=random.randint(0, 100))
 
 ## Login & Registration
 

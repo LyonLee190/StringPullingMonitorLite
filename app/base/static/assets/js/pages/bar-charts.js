@@ -1,38 +1,16 @@
 'use strict';
 $(document).ready(function() {
-    setTimeout(function() {
+//    setTimeout(function() {
     // [ bar-simple ] chart start
     var barChart = Morris.Bar({
         element: 'morris-bar-chart',
         data: [{
-                y: '2000',
-                a: 70,
-                b: 40,
-                c: 30,
-            },
-            {
-                y: '2009',
-                a: 75,
-                b: 65,
-                c: 60,
-            },
-            {
-                y: '2010',
-                a: 50,
-                b: 40,
-                c: 55,
-            },
-            {
-                y: '2011',
-                a: 75,
-                b: 65,
-                c: 85,
-            },
-            {
-                y: '2012',
-                a: 100,
-                b: 90,
-                c: 40,
+                y: 'Subject ID',
+                a: 2,
+                b: 4,
+                c: 8,
+                d: 16,
+                e: 32
             }
         ],
         xkey: 'y',
@@ -40,10 +18,28 @@ $(document).ready(function() {
         barGap: 3,
         resize: true,
         responsive:true,
-        ykeys: ['a', 'b', 'c'],
-        labels: ['Bar 1', 'Bar 2', 'Bar 3'],
-        barColors: ["0-#1de9b6-#1dc4e9", "0-#899FD4-#A389D4", "#04a9f5"]
+        ykeys: ['a', 'b', 'c', 'd', 'e'],
+        labels: ['Pull Force', 'Pull Velocity', 'Pull Distance', 'Time Elapsed' ,'Completed Task'],
+        barColors: ["#ED5752", "#92AAC7", "#E2DFA2", "#A1BE95", "#B3DE81"]
     });
     // [ bar-simple ] chart end
-        }, 700);
+//        }, 700);
+
+//    var interval_id = setInterval(update_values, 1000);
+//    var result;
+//    function update_values() {
+//        $.getJSON($SCRIPT_ROOT + '/data_retrieve',
+//        function(data) {result = data;})
+//    }
+        setInterval(function() {
+//                var result;
+//                $.getJSON($SCRIPT_ROOT + '/data_retrieve',
+//                function(data) {
+//                    result = data;
+//                }));
+//
+//                barChart.data[0].y[0] = result;
+//                barChart.data[0].y[3] += 1;
+                barChart.update();
+        }, 1000);
 });
