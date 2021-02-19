@@ -41,10 +41,13 @@ def get_training_para():
         print("Force: %.2f, distance: %.2f, time_window: %.2f" % (force, distance, time_window))
     return render_template('index.html')
 
-@blueprint.route('/data_retrieve', methods=['GET'])
-def data_retrieve():
-
-    return jsonify(result=random.randint(0, 100))
+@blueprint.route('/update', methods=["GET", "POST"])
+def load_ajax():
+    if request.method == 'POST':
+        return jsonify(force_val=random.randint(0, 64),
+                       velocity_val=random.randint(0, 64),
+                       distance_val=random.randint(0, 32),
+                       tasks_val=random.randint(0, 16))
 
 ## Login & Registration
 
