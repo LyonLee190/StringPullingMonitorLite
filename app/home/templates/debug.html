@@ -1,0 +1,58 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+    <link rel="stylesheet" href="/static/assets/plugins/chart-morris/css/morris.css">
+{% endblock stylesheets %}
+
+{% block content %}
+
+<!--declare min/max input range for elements-->
+    <div class="pcoded-content">
+        <div class="pcoded-inner-content">
+            <!-- [ breadcrumb ] start -->
+
+            <!-- [ breadcrumb ] end -->
+            <div class="main-body">
+                <div class="page-wrapper">
+                    <!-- [ Main Content ] start -->
+                    <div class="row">
+                        <!--[ Sensor Data ] start-->
+                        <div class="col-xl-8 col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5>Sensor Data</h5>
+                                </div>
+                                <div class="card-block">
+                                    <label for="LC-chart">Load Cell</label>
+                                    <div id="LC-chart" class="ChartShadow" style="height:150px"></div>
+                                    <label for="OS-1-chart">Optical Sensor 1</label>
+                                    <div id="OS-1-chart" style="height:150px"></div>
+                                    <label for="OS-2-chart">Optical Sensor 1</label>
+                                    <div id="OS-2-chart" style="height:150px"></div>
+<!--                                    <label for="SM-1-chart">Stepper Motor 1</label>-->
+<!--                                    <div id="SM-1-chart" style="height:150px"></div>-->
+<!--                                    <label for="SM-2-chart">Stepper Motor 2</label>-->
+<!--                                    <div id="SM-2-chart" style="height:150px"></div>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--[ Sensor Data ] end-->
+                    </div>
+                    <!-- [ Main Content ] end -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+    <script src="/static/assets/plugins/chart-morris/js/raphael.min.js"></script>
+    <script src="/static/assets/plugins/chart-morris/js/morris.min.js"></script>
+    <script src="/static/assets/js/pages/donut-chart.js"></script>
+
+{% endblock javascripts %}

@@ -15,9 +15,11 @@ from flask_login import (
 from app import db, login_manager
 from app.base import blueprint
 from app.base.forms import LoginForm, CreateAccountForm
-from app.base.models import User
+from app.base.models import User, Experiments, Subjects, RealTimeData
 
 from app.base.util import verify_pass
+
+from datetime import datetime
 
 ## Dashboard
 
@@ -28,26 +30,49 @@ def render_index():
 @blueprint.route('/index', methods=['GET', 'POST'])
 def get_training_para():
     if request.method == 'POST':
+        experiment = Experiments()
+        subject = Subjects()
+
         results = request.form
-        experiment_id = results.get("experiment_ID")
-        subject_id = results.get("subject_ID")
+        experiment.experiment_id = results.get("experiment_ID")
+        subject.subject_id = results.get("subject_ID")
         date = results.get("date")
+        experiment.date = datetime.strptime(date, "%Y-%m-%d")
+        experiment.duration = results.get("duration")
+        experiment.comment = results.get("comment")
 
-        force = float(results.get("input_force"))
-        distance = float(results.get("input_distance"))
-        time_window = float(results.get("input_time_window"))
+        experiment.required_force = float(results.get("input_force"))
+        experiment.required_distance = float(results.get("input_distance"))
+        experiment.allowable_time_window = float(results.get("input_time_window"))
 
-        print("Experiment ID: %s, Subject ID: %s, Date: %s" % (experiment_id, subject_id, date))
-        print("Force: %.2f, distance: %.2f, time_window: %.2f" % (force, distance, time_window))
+        db.session.add(experiment)
+        db.session.add(subject)
+        db.session.commit()
+
+        print("Experiment ID: %s, Subject ID: %s, Date: %s, Duration: %s, Comment: %s" % (experiment.experiment_id,
+                                                                                          subject.subject_id,
+                                                                                          date,
+                                                                                          experiment.duration,
+                                                                                          experiment.comment))
+        print("Force: %.2f, distance: %.2f, time_window: %.2f" % (experiment.required_force,
+                                                                  experiment.required_distance,
+                                                                  experiment.allowable_time_window))
     return render_template('index.html')
 
-@blueprint.route('/update', methods=["GET", "POST"])
+@blueprint.route('/real_time_data_update', methods=["GET", "POST"])
 def load_ajax():
     if request.method == 'POST':
         return jsonify(force_val=random.randint(0, 64),
                        velocity_val=random.randint(0, 64),
                        distance_val=random.randint(0, 32),
-                       tasks_val=random.randint(0, 16))
+                       completions_val=random.randint(0, 16))
+
+@blueprint.route('/sensor_data_update', methods=["GET", "POST"])
+def retrieveSensorData():
+    if request.method == 'POST':
+        return jsonify(LC_val=random.randint(0, 64),
+                       OS_1_val=random.randint(0, 64),
+                       OS_2_val=random.randint(0, 64))
 
 ## Login & Registration
 

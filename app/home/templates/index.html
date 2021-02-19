@@ -50,6 +50,21 @@
                                             </div>
                                             <input type="date" class="form-control" name="date" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value ="<?php echo date('Y-m-d') ?>" required>
                                         </div>
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Duration</span>
+                                            </div>
+                                            <input type="number" class="form-control" name="duration" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                                            <div class="input-group-prepend">
+                                                    <span class="input-group-text">s</span>
+                                            </div>
+                                        </div>
+                                        <div class="input-group input-group-sm mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Comment</span>
+                                            </div>
+                                            <input type="text" class="form-control" name="comment" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6" style="padding-left: 30px; padding-right: 30px">
@@ -127,10 +142,14 @@
                                     <h5>Real Time Data</h5>
                                 </div>
                                 <div class="card-block">
-                                    <div id="force-chart" style="height:150px"></div>
+                                    <label for="force-chart">Pull Force</label>
+                                    <div id="force-chart" class="ChartShadow" style="height:150px"></div>
+                                    <label for="velocity-chart">Pull Velocity</label>
                                     <div id="velocity-chart" style="height:150px"></div>
+                                    <label for="distance-chart">Pull Distance</label>
                                     <div id="distance-chart" style="height:150px"></div>
-                                    <div id="n-tasks-chart" style="height:150px"></div>
+                                    <label for="completions-chart">Completion</label>
+                                    <div id="completions-chart" style="height:150px"></div>
                                 </div>
                             </div>
                         </div>
@@ -220,5 +239,6 @@
 {% block javascripts %}
     <script src="/static/assets/plugins/chart-morris/js/raphael.min.js"></script>
     <script src="/static/assets/plugins/chart-morris/js/morris.min.js"></script>
-    <script src="/static/assets/js/pages/donut-chart.js"></script>
+    <script src="/static/assets/js/pages/line-chart.js"></script>
+
 {% endblock javascripts %}
