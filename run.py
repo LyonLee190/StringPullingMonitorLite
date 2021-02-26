@@ -26,7 +26,8 @@ try:
 except KeyError:
     exit('Error: Invalid <config_mode>. Expected values [Debug, Production] ')
 
-app = create_app( app_config ) 
+app = create_app( app_config )
+app.config['SECRET_KEY'] = 'StringPullingLite'
 Migrate(app, db)
 
 if DEBUG:
@@ -35,5 +36,4 @@ if DEBUG:
     app.logger.info('DBMS        = ' + app_config.SQLALCHEMY_DATABASE_URI )
 
 if __name__ == "__main__":
-    app.config['SECRET_KEY'] = 'any secret string'
     app.run()
