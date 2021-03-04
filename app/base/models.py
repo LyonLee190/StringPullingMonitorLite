@@ -11,49 +11,69 @@ from app import db, login_manager
 
 from app.base.util import hash_pass
 
-class Experiments(db.Model):
-    experiment_id = Column(db.String, primary_key=True)
+
+class Configure(db.Model):
+    id = Column(db.Integer, primary_key=True)
+
+    # newton
+    required_force = Column(db.Float, default=0, nullable=False)
+    # meter
+    required_distance = Column(db.Float, default=0, nullable=False)
+    # seconds
+    allowable_time_window = Column(db.Integer, default=0, nullable=False)
+
+    experiment = relationship("Experiment", uselist=False, back_populates="configure")
+
+    def __repr__(self):
+        return '<Configure %r %r %r %r>' % (self.id,
+                                            self.required_force,
+                                            self.required_distance,
+                                            self.allowable_time_windows)
+
+
+class Experiment(db.Model):
+    id = Column(db.String, primary_key=True)
+    configure_id = Column(db.Integer, ForeignKey('configure.id'), nullable=False)
 
     date = Column(db.DateTime, nullable=False)
-    required_force = Column(db.Float, nullable=False)
-    required_distance = Column(db.Float, nullable=False)
-    allowable_time_window = Column(db.Integer, nullable=False)
     duration = Column(db.Integer, nullable=False)
+
     comment = Column(db.String)
 
-    realTimeData = relationship("RealTimeData", uselist=False, back_populates="experiments")
+    configure = relationship("Configure", back_populates="experiment")
+    realTimeData = relationship("RealTimeData", uselist=False, back_populates="experiment")
 
     def __repr__(self):
-        return '<Experiments %r %r %r %r %r %r %r>' % (self.experiment_id,
-                                                       self.date,
-                                                       self.required_force,
-                                                       self.required_distance,
-                                                       self.allowable_time_window,
-                                                       self.duration,
-                                                       self.comment)
+        return '<Experiment %r %r %r %r>' % (self.id,
+                                             self.date,
+                                             self.duration,
+                                             self.comment)
 
 
-class Subjects(db.Model):
-    subject_id = Column(db.String, primary_key=True)
+class Subject(db.Model):
+    id = Column(db.String, primary_key=True)
 
-    realTimeData = relationship("RealTimeData", uselist=False, back_populates="subjects")
+    realTimeData = relationship("RealTimeData", uselist=False, back_populates="subject")
 
     def __repr__(self):
-        return '<Experiments %r>' % self.subject_id
+        return '<Subject %r>' % self.id
 
 
 class RealTimeData(db.Model):
-    experiment_id = Column(db.String, ForeignKey('experiments.experiment_id'), primary_key=True)
-    subject_id = Column(db.String, ForeignKey('subjects.subject_id'), primary_key=True)
+    experiment_id = Column(db.String, ForeignKey('experiment.id'), primary_key=True)
+    subject_id = Column(db.String, ForeignKey('subject.id'), primary_key=True)
     time_stamp = Column(db.DateTime, primary_key=True)
 
+    # Newton
     pull_force = Column(db.Float, nullable=False)
+    # Meter/Seconds
     pull_velocity = Column(db.Float, nullable=False)
+    # Meter
     pull_distance = Column(db.Float, nullable=False)
     completions = Column(db.Integer, nullable=False)
 
-    experiments = relationship("Experiments", back_populates="realTimeData")
-    subjects = relationship("Subjects", back_populates="realTimeData")
+    experiment = relationship("Experiment", back_populates="realTimeData")
+    subject = relationship("Subject", back_populates="realTimeData")
 
     def __repr__(self):
         return '<Experiments %r %r %r %r %r %r %r>' % (self.experiment_id,
@@ -64,8 +84,8 @@ class RealTimeData(db.Model):
                                                        self.pull_distance,
                                                        self.completions)
 
-class User(db.Model, UserMixin):
 
+class User(db.Model, UserMixin):
     __tablename__ = 'User'
 
     id = Column(Integer, primary_key=True)
@@ -83,8 +103,8 @@ class User(db.Model, UserMixin):
                 value = value[0]
 
             if property == 'password':
-                value = hash_pass( value ) # we need bytes here (not plain str)
-                
+                value = hash_pass(value)  # we need bytes here (not plain str)
+
             setattr(self, property, value)
 
     def __repr__(self):
@@ -94,6 +114,7 @@ class User(db.Model, UserMixin):
 @login_manager.user_loader
 def user_loader(id):
     return User.query.filter_by(id=id).first()
+
 
 @login_manager.request_loader
 def request_loader(request):

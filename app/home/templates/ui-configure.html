@@ -1,0 +1,99 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Configure {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Configure</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="javascript:">Configure</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <div class="page-wrapper">
+
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                    <h5>Experiment Setting</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <form id="experiment_setting_form" onsubmit="event.preventDefault(); validateMyForm();">
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Setting ID</span>
+                                                </div>
+                                                <select class="form-control" id="experiment_setting_id">
+                                                    {% for i in range(0, 6) %}
+                                                    <option value="{{ i }}">{{ i }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Required Force</span>
+                                                </div>
+                                                <input type="number" id="input_force" value="{{ input_force }}" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">N</span>
+                                                </div>
+                                            </div>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Required Distance</span>
+                                                </div>
+                                                <input type="number" id="input_distance" value="{{ input_distance }}" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">m</span>
+                                                </div>
+                                            </div>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Required Time Window</span>
+                                                </div>
+                                                <input type="number" id="input_time_window" value="{{ input_time_window }}" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">s</span>
+                                                </div>
+                                            </div>
+                                            <input type="submit" id="upload" value="upload" class="btn btn-primary">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ Main Content ] end -->
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="/static/assets/js/pages/configure.js"></script>
+{% endblock javascripts %}
