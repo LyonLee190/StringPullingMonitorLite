@@ -20,14 +20,12 @@ import random
 @blueprint.route('/index')
 @login_required
 def index():
-
     return render_template('index.html', segment='index')
 
 
 @blueprint.route('/configure')
 @login_required
 def configure():
-
     return render_template('ui-configure.html')
 
 
@@ -36,22 +34,25 @@ def configure():
 @login_required
 def configure_submit():
     if request.method == 'POST':
-        exp_info = Experiment()
-        exp_info.id = request.form["experiment_id"]
+        try:
+            exp_info = Experiment()
+            exp_info.id = request.form["experiment_id"]
 
-        subject = Subject()
-        subject.id = request.form["subject_id"]
+            subject = Subject()
+            subject.id = request.form["subject_id"]
 
-        exp_info.date = datetime.strptime(request.form["date"], "%Y-%m-%d")
-        exp_info.duration = int(request.form["duration"])
-        exp_info.comment = request.form["comment"]
-        exp_info.configure_id = int(request.form["setting_id"])
+            exp_info.date = datetime.strptime(request.form["date"], "%Y-%m-%d")
+            exp_info.duration = int(request.form["duration"])
+            exp_info.comment = request.form["comment"]
+            exp_info.configure_id = int(request.form["setting_id"])
 
-        db.session.merge(exp_info)
-        db.session.merge(subject)
-        db.session.commit()
+            db.session.merge(exp_info)
+            db.session.merge(subject)
+            db.session.commit()
 
-        return jsonify(msg="Experiment Info Submitted")
+            return jsonify(msg="Experiment Info Submitted")
+        except ValueError:  # empty input
+            return jsonify(msg="ValueError")
 
 
 # training setting uploading
@@ -59,16 +60,19 @@ def configure_submit():
 @login_required
 def configure_upload():
     if request.method == 'POST':
-        train_configure = Configure()
-        train_configure.id = int(request.form["setting_id"])
-        train_configure.required_force = request.form["input_force"]
-        train_configure.required_distance = request.form["input_distance"]
-        train_configure.allowable_time_window = request.form["input_time_window"]
+        try:
+            train_configure = Configure()
+            train_configure.id = int(request.form["setting_id"])
+            train_configure.required_force = request.form["input_force"]
+            train_configure.required_distance = request.form["input_distance"]
+            train_configure.allowable_time_window = request.form["input_time_window"]
 
-        db.session.merge(train_configure)
-        db.session.commit()
+            db.session.merge(train_configure)
+            db.session.commit()
 
-        return jsonify(msg="Training Setting Uploaded")
+            return jsonify(msg="Training Setting Uploaded")
+        except ValueError:  # empty input
+            return jsonify(msg="ValueError")
 
 
 @blueprint.route('/configure/query', methods=['GET', 'POST'])
@@ -141,28 +145,26 @@ def configure_query():
 @blueprint.route('/<template>')
 @login_required
 def route_template(template):
-
     try:
 
-        if not template.endswith( '.html' ):
+        if not template.endswith('.html'):
             template += '.html'
 
         # Detect the current page
-        segment = get_segment( request )
+        segment = get_segment(request)
 
         # Serve the file (if exists) from app/templates/FILE.html
-        return render_template( template, segment=segment )
+        return render_template(template, segment=segment)
 
     except TemplateNotFound:
         return render_template('page-404.html'), 404
-    
+
     except:
         return render_template('page-500.html'), 500
 
 
 # Helper - Extract current page name from request 
-def get_segment( request ): 
-
+def get_segment(request):
     try:
 
         segment = request.path.split('/')[-1]
@@ -170,7 +172,7 @@ def get_segment( request ):
         if segment == '':
             segment = 'index'
 
-        return segment    
+        return segment
 
     except:
-        return None  
+        return None

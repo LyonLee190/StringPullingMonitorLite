@@ -25,7 +25,8 @@ $(document).ready(function() {
                 processData: false,
                 contentType: false,
                 success : function(data) {
-                    window.alert(data.msg);
+                    if (!data.msg.equals("ValueError"))
+                        window.alert(data.msg);
                 },
             })
         )
@@ -53,7 +54,8 @@ $(document).ready(function() {
                 processData: false,
                 contentType: false,
                 success : function(data) {
-                    window.alert(data.msg);
+                    if (!data.msg.equals("ValueError"))
+                        window.alert(data.msg);
                 },
             })
         )
