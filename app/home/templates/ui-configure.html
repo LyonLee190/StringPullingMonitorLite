@@ -34,22 +34,76 @@
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                    <h5>Experiment Setting</h5>
+                                    <h5>Experiment Info</h5>
                             </div>
                             <div class="card-body">
                                 <div class="row">
+                                    <!-- [ form-card] start -->
                                     <div class="col-md-6">
-                                        <form id="experiment_setting_form" onsubmit="event.preventDefault(); validateMyForm();">
+                                        <form id="experiment_info_form" onsubmit="event.preventDefault(); validateMyForm();">
                                             <div class="input-group input-group-sm mb-3">
                                                 <div class="input-group-prepend">
-                                                    <span class="input-group-text">Setting ID</span>
+                                                    <span class="input-group-text">Experiment ID</span>
                                                 </div>
-                                                <select class="form-control" id="experiment_setting_id">
+                                                <input type="text" class="form-control" id="experiment_id" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                                            </div>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Subject ID</span>
+                                                </div>
+                                                <input type="text" class="form-control" id="subject_id" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                                            </div>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Date</span>
+                                                </div>
+                                                <input type="date" class="form-control" id="date" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value ="<?php echo date('Y-m-d') ?>" required>
+                                            </div>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Duration</span>
+                                                </div>
+                                                <input type="number" class="form-control" id="duration" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">s</span>
+                                                </div>
+                                            </div>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Comment</span>
+                                                </div>
+                                                <input type="text" class="form-control" id="comment" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                                            </div>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Training Setting ID</span>
+                                                </div>
+                                                <select class="form-control" id="setting_id">
+                                                    <option disabled selected value> -- select an option -- </option>
                                                     {% for i in range(0, 6) %}
                                                     <option value="{{ i }}">{{ i }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
+                                            <input type="submit" id="info_submit" value="Submit" class="btn btn-primary">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ form-card] end -->
+
+                    <!-- [ form-card] start -->
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                    <h5>Training Setting</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <form id="training_setting_form" onsubmit="event.preventDefault(); validateMyForm();">
                                             <div class="input-group input-group-sm mb-3">
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text">Required Force</span>
@@ -77,7 +131,7 @@
                                                     <span class="input-group-text">s</span>
                                                 </div>
                                             </div>
-                                            <input type="submit" id="upload" value="upload" class="btn btn-primary">
+                                            <input type="submit" id="setting_upload" value="Upload" class="btn btn-primary">
                                         </form>
                                     </div>
                                 </div>
@@ -85,6 +139,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- [ form-card] end -->
                 <!-- [ Main Content ] end -->
 
             </div>

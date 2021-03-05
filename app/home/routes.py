@@ -27,44 +27,66 @@ def index():
 @blueprint.route('/configure')
 @login_required
 def configure():
-    exp_configure = db.session.query(Configure).get(0)
-    return render_template('ui-configure.html',
-                           input_force=exp_configure.required_force,
-                           input_distance=exp_configure.required_distance,
-                           input_time_window=exp_configure.allowable_time_window)
 
+    return render_template('ui-configure.html')
+
+
+# experiment info submitting
+@blueprint.route('/configure/submit', methods=['GET', 'POST'])
+@login_required
+def configure_submit():
+    if request.method == 'POST':
+        exp_info = Experiment()
+        exp_info.id = request.form["experiment_id"]
+
+        subject = Subject()
+        subject.id = request.form["subject_id"]
+
+        exp_info.date = datetime.strptime(request.form["date"], "%Y-%m-%d")
+        exp_info.duration = int(request.form["duration"])
+        exp_info.comment = request.form["comment"]
+        exp_info.configure_id = int(request.form["setting_id"])
+
+        db.session.merge(exp_info)
+        db.session.merge(subject)
+        db.session.commit()
+
+        return jsonify(msg="Experiment Info Submitted")
+
+
+# training setting uploading
 @blueprint.route('/configure/upload', methods=['GET', 'POST'])
 @login_required
 def configure_upload():
     if request.method == 'POST':
-        exp_configure = Configure()
-        exp_configure.id = int(request.form["experiment_setting_id"])
-        exp_configure.required_force = request.form["input_force"]
-        exp_configure.required_distance = request.form["input_distance"]
-        exp_configure.allowable_time_window = request.form["input_time_window"]
+        train_configure = Configure()
+        train_configure.id = int(request.form["setting_id"])
+        train_configure.required_force = request.form["input_force"]
+        train_configure.required_distance = request.form["input_distance"]
+        train_configure.allowable_time_window = request.form["input_time_window"]
 
-        db.session.merge(exp_configure)
+        db.session.merge(train_configure)
         db.session.commit()
 
-        return jsonify(msg="Experiment Setting Uploaded")
+        return jsonify(msg="Training Setting Uploaded")
 
 
 @blueprint.route('/configure/query', methods=['GET', 'POST'])
 @login_required
 def configure_query():
     if request.method == 'POST':
-        configure_id = int(request.form["experiment_setting_id"])
-        exp_configure = db.session.query(Configure).get(configure_id)
-        if exp_configure is None:
-            exp_configure = Configure()
-            exp_configure.id = configure_id
+        configure_id = int(request.form["setting_id"])
+        train_configure = db.session.query(Configure).get(configure_id)
+        if train_configure is None:
+            train_configure = Configure()
+            train_configure.id = configure_id
 
-            db.session.merge(exp_configure)
+            db.session.merge(train_configure)
             db.session.commit()
 
-        return jsonify(input_force=exp_configure.required_force,
-                       input_distance=exp_configure.required_distance,
-                       input_time_window=exp_configure.allowable_time_window)
+        return jsonify(input_force=train_configure.required_force,
+                       input_distance=train_configure.required_distance,
+                       input_time_window=train_configure.allowable_time_window)
 
 
 # @blueprint.route('/index', methods=['GET', 'POST'])
