@@ -63,9 +63,9 @@ def configure_upload():
         try:
             train_configure = Configure()
             train_configure.id = int(request.form["setting_id"])
-            train_configure.required_force = request.form["input_force"]
-            train_configure.required_distance = request.form["input_distance"]
-            train_configure.allowable_time_window = request.form["input_time_window"]
+            train_configure.required_force = float(request.form["input_force"])
+            train_configure.required_distance = float(request.form["input_distance"])
+            train_configure.allowable_time_window = float(request.form["input_time_window"])
 
             db.session.merge(train_configure)
             db.session.commit()
