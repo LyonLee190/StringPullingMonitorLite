@@ -18,7 +18,7 @@ $(document).ready(function() {
         $.when(
             $.ajax({
                 type : "POST",
-                url : '/configure/submit',
+                url : '/configure/upload/experiment_info',
                 data : form_info,
                 dataType: "json",
                 cache: false,
@@ -47,7 +47,7 @@ $(document).ready(function() {
         $.when(
             $.ajax({
                 type : "POST",
-                url : '/configure/upload',
+                url : '/configure/upload/configuration',
                 data : form_setting,
                 dataType: "json",
                 cache: false,
@@ -70,7 +70,7 @@ $(document).ready(function() {
         $.when(
             $.ajax({
                 type : "POST",
-                url : '/configure/query',
+                url : '/configure/query/configuration',
                 data : form_setting,
                 dataType: "json",
                 cache: false,

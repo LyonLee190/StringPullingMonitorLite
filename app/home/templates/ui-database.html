@@ -1,0 +1,100 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Configure {% endblock %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+<div class="pcoded-content">
+    <div class="pcoded-inner-content">
+        <!-- [ breadcrumb ] start -->
+        <div class="page-header">
+            <div class="page-block">
+                <div class="row align-items-center">
+                    <div class="col-md-12">
+                        <div class="page-header-title">
+                            <h5 class="m-b-10">Database</h5>
+                        </div>
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html"><i class="feather icon-home"></i></a></li>
+                            <li class="breadcrumb-item"><a href="javascript:">Database</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- [ breadcrumb ] end -->
+        <div class="main-body">
+            <div class="page-wrapper">
+
+                <!-- [ Main Content ] start -->
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                    <h5>Training Record</h5>
+                                    <img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/Jerry.jpg">
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- [ form-card] start -->
+                                    <div class="col-md-6">
+                                        <form id="training_record_form" onsubmit="event.preventDefault(); validateMyForm();">
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Subject ID</span>
+                                                </div>
+                                                <select class="form-control" id="subject_id">
+                                                    <option disabled selected value> -- 1. Select the subject ID. -- </option>
+                                                    {% for subject_id in subject_col %}
+                                                    <option value="{{ subject_id[0] }}">{{ subject_id[0] }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="input-group input-group-sm mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Experiment ID</span>
+                                                </div>
+                                                <select class="form-control" id="experiment_id">
+                                                    <option disabled selected value> -- 2. Select the experiment ID. -- </option>
+                                                </select>
+                                            </div>
+                                            <input type="submit" id="subject_id_submit" value="Query" class="btn btn-primary">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ form-card] end -->
+
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                    <h5>Data</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <!-- [ form-card] start -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ form-card] end -->
+
+                <!-- [ Main Content ] end -->
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script src="/static/assets/js/pages/database.js"></script>
+{% endblock javascripts %}

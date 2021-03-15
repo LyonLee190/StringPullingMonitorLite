@@ -29,8 +29,8 @@ def configure():
     return render_template('ui-configure.html')
 
 
-# experiment info submitting
-@blueprint.route('/configure/submit', methods=['GET', 'POST'])
+# upload experiment info
+@blueprint.route('/configure/upload/experiment_info', methods=['GET', 'POST'])
 @login_required
 def configure_submit():
     if request.method == 'POST':
@@ -55,8 +55,8 @@ def configure_submit():
             return jsonify(msg="ValueError")
 
 
-# training setting uploading
-@blueprint.route('/configure/upload', methods=['GET', 'POST'])
+# upload training configuration
+@blueprint.route('/configure/upload/configuration', methods=['GET', 'POST'])
 @login_required
 def configure_upload():
     if request.method == 'POST':
@@ -74,8 +74,8 @@ def configure_upload():
         except ValueError:  # empty input
             return jsonify(msg="ValueError")
 
-
-@blueprint.route('/configure/query', methods=['GET', 'POST'])
+# query the saved configuration
+@blueprint.route('/configure/query/configuration', methods=['GET', 'POST'])
 @login_required
 def configure_query():
     if request.method == 'POST':
@@ -91,6 +91,27 @@ def configure_query():
         return jsonify(input_force=train_configure.required_force,
                        input_distance=train_configure.required_distance,
                        input_time_window=train_configure.allowable_time_window)
+
+
+@blueprint.route('/database')
+@login_required
+def database():
+    subject_col = db.session.query(Subject.id).distinct()
+    return render_template('ui-database.html', subject_col=subject_col)
+
+
+# query the saved experiment record for a given training subject
+@blueprint.route('/database/query/experiment_id', methods=['GET', 'POST'])
+@login_required
+def experiment_query():
+    if request.method == 'POST':
+        subject_id = request.form["subject_id"]
+        experiment_id = db.session.query(RealTimeData.experiment_id)\
+            .filter(RealTimeData.subject_id.in_([subject_id]))\
+            .distinct()\
+            .all()
+        
+        return jsonify(experiment_id=experiment_id)
 
 
 # @blueprint.route('/index', methods=['GET', 'POST'])
