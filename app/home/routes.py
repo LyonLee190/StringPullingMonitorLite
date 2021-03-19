@@ -2,6 +2,8 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
+import csv
+import os
 
 from app.home import blueprint
 from flask import jsonify, render_template, redirect, url_for, request
@@ -14,7 +16,12 @@ from app import db, login_manager
 from app.base.models import User, Configure, Experiment, Subject, RealTimeData
 
 from datetime import datetime
-import random
+
+
+# # app/home/routes.py
+# # app/base/static/realtime_data.csv
+# CSV_PATH = "../base/static/realtime_data.csv"
+# CSV_PATH = os.path.join('\\'.join(os.path.realpath(__file__).split('\\')[:-1]), 'realtime_data.csv')
 
 
 @blueprint.route('/index')
@@ -112,6 +119,45 @@ def experiment_query():
             .all()
         
         return jsonify(experiment_id=experiment_id)
+
+
+# query the saved realtime data for a given training subject and experiment
+@blueprint.route('/database/query/realtime_data', methods=['GET', 'POST'])
+@login_required
+def realtime_data_query():
+    if request.method == 'POST':
+        experiment_id = request.form["experiment_id"]
+        subject_id = request.form["subject_id"]
+
+        realtime_data = db.session.query(RealTimeData) \
+            .filter(RealTimeData.experiment_id.in_([experiment_id])) \
+            .filter(RealTimeData.subject_id.in_([subject_id])) \
+            .all()
+
+        time_stamp = []
+        pull_force = []
+        pull_velocity = []
+        pull_distance = []
+        completions = []
+        for i in range(len(realtime_data)):
+            time_stamp.append(realtime_data[i].time_stamp)
+            pull_force.append(realtime_data[i].pull_force)
+            pull_velocity.append(realtime_data[i].pull_velocity)
+            pull_distance.append(realtime_data[i].pull_distance)
+            completions.append(realtime_data[i].completions)
+
+        # # also save the realtime data into .csv file
+        # outfile = open(CSV_PATH, 'wb')
+        # out_csv = csv.writer(outfile)
+        # [out_csv.writerow([getattr(curr, column.name) for column in RealTimeData.__mapper__.columns]) for curr in realtime_data]
+        # # out_csv.writerows(realtime_data)
+        # outfile.close()
+
+        return jsonify(time_stamp=time_stamp,
+                       pull_force=pull_force,
+                       pull_velocity=pull_velocity,
+                       pull_distance=pull_distance,
+                       completions=completions)
 
 
 # @blueprint.route('/index', methods=['GET', 'POST'])

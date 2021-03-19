@@ -1,34 +1,4 @@
 $(document).ready(function() {
-
-//    $("#setting_upload").click(function() {
-//        var setting_id = document.getElementById("setting_id").value;
-//        var input_force = document.getElementById("input_force").value;
-//        var input_distance = document.getElementById("input_distance").value;
-//        var input_time_window = document.getElementById("input_time_window").value;
-//
-//        var form_setting = new FormData();
-//        form_setting.append("setting_id", setting_id);
-//        form_setting.append("input_force", input_force);
-//        form_setting.append("input_distance", input_distance);
-//        form_setting.append("input_time_window", input_time_window);
-//
-//        $.when(
-//            $.ajax({
-//                type : "POST",
-//                url : '/configure/upload',
-//                data : form_setting,
-//                dataType: "json",
-//                cache: false,
-//                processData: false,
-//                contentType: false,
-//                success : function(data) {
-//                    if (!data.msg.equals("ValueError"))
-//                        window.alert(data.msg);
-//                },
-//            })
-//        )
-//    })
-
     document.getElementById("subject_id").onchange = function() {
         var subject_id = document.getElementById("subject_id").value;
 
@@ -54,16 +24,44 @@ $(document).ready(function() {
         )
     }
 
-    var force = document.getElementById("input_force");
-    force.min = "0";
-    force.max = "64";
-    force.step = "0.01";
-    var distance = document.getElementById("input_distance");
-    distance.min = "0";
-    distance.max = "64";
-    distance.step = "0.01";
-    var time_window_r = document.getElementById("input_time_window");
-    time_window_r.min = "0";
-    time_window_r.max = "360";
-    time_window_r.step = "1";
+    document.getElementById("experiment_id").onchange = function() {
+        var experiment_id = document.getElementById("experiment_id").value;
+        var subject_id = document.getElementById("subject_id").value;
+
+        var form_subject = new FormData();
+        form_subject.append("experiment_id", experiment_id);
+        form_subject.append("subject_id", subject_id);
+
+        $.when(
+            $.ajax({
+                type : "POST",
+                url : '/database/query/realtime_data',
+                data : form_subject,
+                dataType: "json",
+                cache: false,
+                processData: false,
+                contentType: false,
+                success : function(data) {
+                    var time_stamp = data.time_stamp;
+                    var pull_force = data.pull_force;
+                    var pull_velocity = data.pull_velocity;
+                    var pull_distance = data.pull_distance;
+                    var completions = data.completions;
+
+                    var content = "";
+                    for (var i = 0; i < time_stamp.length; i++) {
+                        content += "<tr>";
+                        content += "<td>" + time_stamp[i] + "</td>" ;
+                        content += "<td>" + pull_force[i] + "</td>" ;
+                        content += "<td>" + pull_velocity[i] + "</td>" ;
+                        content += "<td>" + pull_distance[i] + "</td>" ;
+                        content += "<td>" + completions[i] + "</td>" ;
+                        content += "</tr>";
+                    }
+
+                    document.getElementById("data_record").innerHTML = content;
+                },
+            })
+        )
+    }
 })

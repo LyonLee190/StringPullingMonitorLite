@@ -61,7 +61,6 @@
                                                     <option disabled selected value> -- 2. Select the experiment ID. -- </option>
                                                 </select>
                                             </div>
-                                            <input type="submit" id="subject_id_submit" value="Query" class="btn btn-primary">
                                         </form>
                                     </div>
                                 </div>
@@ -70,20 +69,29 @@
                     </div>
                     <!-- [ form-card] end -->
 
-                    <div class="row">
                     <div class="col-sm-12">
                         <div class="card">
                             <div class="card-header">
                                     <h5>Data</h5>
                             </div>
-                            <div class="card-body">
-                                <div class="row">
+                            <div class="card-block table-border-style">
                                     <!-- [ form-card] start -->
-
-                                </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Time Stamp</th>
+                                                    <th>Pull Force</th>
+                                                    <th>Pull Velocity</th>
+                                                    <th>Pull Distance</th>
+                                                    <th>Completions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody  id="data_record"></tbody>
+                                        </table>
+                                    </div>
                             </div>
                         </div>
-                    </div>
                     <!-- [ form-card] end -->
 
                 <!-- [ Main Content ] end -->
