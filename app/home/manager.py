@@ -54,15 +54,15 @@ class Manager:
         while (self.remain_time > 0) and (not self.interrupt):
             self.metadata.time_stamp = datetime.now()
             # TODO: change the following data retrieving approaches
+            # TODO: also integrate the food dispenser
             self.metadata.pull_force = random.randint(0, 64)
             self.metadata.pull_velocity = random.randint(0, 64)
             self.metadata.pull_distance = random.randint(0, 64)
             self.metadata.completions = random.randint(0, 64)
 
             # write the metadata into our database
-            # TODO: uncomment the following two lines once all requirements are met
-            # db.session.merge(self.metadata)
-            # db.session.commit()
+            db.session.merge(self.metadata)
+            db.session.commit()
 
             # TODO: you may want to change the sampling rate
             time.sleep(1)

@@ -156,6 +156,20 @@ def query_realtime_data():
                        completions=completions)
 
 
+# delete the record for a given experiment id and subject id
+@blueprint.route('/database/delete/record', methods=['GET', 'POST'])
+@login_required
+def delete_record():
+    if request.method == 'POST':
+        experiment_id_del = request.form["experiment_id"]
+        subject_id_del = request.form["subject_id"]
+
+        RealTimeData.query.filter_by(experiment_id=experiment_id_del, subject_id=subject_id_del).delete()
+        db.session.commit()
+
+        return jsonify(msg="The record is deleted, please refresh the page.")
+
+
 @blueprint.route('/index/update/metadata', methods=["GET", "POST"])
 def update_metadata():
     global manager
