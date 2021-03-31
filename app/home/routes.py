@@ -2,8 +2,6 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-import csv
-import os
 
 from app.home import blueprint
 from flask import jsonify, render_template, redirect, url_for, request
@@ -17,11 +15,11 @@ from app.base.models import User, Configure, Experiment, Subject, RealTimeData
 
 from datetime import datetime
 
+from .manager import Manager
 
-# # app/home/routes.py
-# # app/base/static/realtime_data.csv
-# CSV_PATH = "../base/static/realtime_data.csv"
-# CSV_PATH = os.path.join('\\'.join(os.path.realpath(__file__).split('\\')[:-1]), 'realtime_data.csv')
+# global variables
+train_configure = Configure()
+manager = Manager()
 
 
 @blueprint.route('/index')
@@ -39,7 +37,8 @@ def configure():
 # upload experiment info
 @blueprint.route('/configure/upload/experiment_info', methods=['GET', 'POST'])
 @login_required
-def configure_submit():
+def upload_experiment_info():
+    global train_configure
     if request.method == 'POST':
         try:
             exp_info = Experiment()
@@ -57,7 +56,9 @@ def configure_submit():
             db.session.merge(subject)
             db.session.commit()
 
-            return jsonify(msg="Experiment Info Submitted")
+            manager.execute(exp_info, subject, train_configure)
+
+            return jsonify(msg="Training Completed")
         except ValueError:  # empty input
             return jsonify(msg="ValueError")
 
@@ -65,10 +66,10 @@ def configure_submit():
 # upload training configuration
 @blueprint.route('/configure/upload/configuration', methods=['GET', 'POST'])
 @login_required
-def configure_upload():
+def upload_configuration():
+    global train_configure
     if request.method == 'POST':
         try:
-            train_configure = Configure()
             train_configure.id = int(request.form["setting_id"])
             train_configure.required_force = float(request.form["input_force"])
             train_configure.required_distance = float(request.form["input_distance"])
@@ -81,10 +82,12 @@ def configure_upload():
         except ValueError:  # empty input
             return jsonify(msg="ValueError")
 
+
 # query the saved configuration
 @blueprint.route('/configure/query/configuration', methods=['GET', 'POST'])
 @login_required
 def configure_query():
+    global train_configure
     if request.method == 'POST':
         configure_id = int(request.form["setting_id"])
         train_configure = db.session.query(Configure).get(configure_id)
@@ -110,21 +113,21 @@ def database():
 # query the saved experiment record for a given training subject
 @blueprint.route('/database/query/experiment_id', methods=['GET', 'POST'])
 @login_required
-def experiment_query():
+def query_experiment():
     if request.method == 'POST':
         subject_id = request.form["subject_id"]
-        experiment_id = db.session.query(RealTimeData.experiment_id)\
-            .filter(RealTimeData.subject_id.in_([subject_id]))\
-            .distinct()\
+        experiment_id = db.session.query(RealTimeData.experiment_id) \
+            .filter(RealTimeData.subject_id.in_([subject_id])) \
+            .distinct() \
             .all()
-        
+
         return jsonify(experiment_id=experiment_id)
 
 
 # query the saved realtime data for a given training subject and experiment
 @blueprint.route('/database/query/realtime_data', methods=['GET', 'POST'])
 @login_required
-def realtime_data_query():
+def query_realtime_data():
     if request.method == 'POST':
         experiment_id = request.form["experiment_id"]
         subject_id = request.form["subject_id"]
@@ -146,13 +149,6 @@ def realtime_data_query():
             pull_distance.append(realtime_data[i].pull_distance)
             completions.append(realtime_data[i].completions)
 
-        # # also save the realtime data into .csv file
-        # outfile = open(CSV_PATH, 'wb')
-        # out_csv = csv.writer(outfile)
-        # [out_csv.writerow([getattr(curr, column.name) for column in RealTimeData.__mapper__.columns]) for curr in realtime_data]
-        # # out_csv.writerows(realtime_data)
-        # outfile.close()
-
         return jsonify(time_stamp=time_stamp,
                        pull_force=pull_force,
                        pull_velocity=pull_velocity,
@@ -160,53 +156,23 @@ def realtime_data_query():
                        completions=completions)
 
 
-# @blueprint.route('/index', methods=['GET', 'POST'])
-# @login_required
-# def get_training_para():
-#     if request.method == 'POST':
-#         experiment = Experiments()
-#         subject = Subjects()
-#
-#         results = request.form
-#         experiment.experiment_id = results.get("experiment_ID")
-#         subject.subject_id = results.get("subject_ID")
-#         date = results.get("date")
-#         experiment.date = datetime.strptime(date, "%Y-%m-%d")
-#         experiment.duration = results.get("duration")
-#         experiment.comment = results.get("comment")
-#
-#         experiment.required_force = float(results.get("input_force"))
-#         experiment.required_distance = float(results.get("input_distance"))
-#         experiment.allowable_time_window = float(results.get("input_time_window"))
-#
-#         db.session.add(experiment)
-#         db.session.add(subject)
-#         db.session.commit()
-#
-#         print("Experiment ID: %s, Subject ID: %s, Date: %s, Duration: %s, Comment: %s" % (experiment.experiment_id,
-#                                                                                           subject.subject_id,
-#                                                                                           date,
-#                                                                                           experiment.duration,
-#                                                                                           experiment.comment))
-#         print("Force: %.2f, distance: %.2f, time_window: %.2f" % (experiment.required_force,
-#                                                                   experiment.required_distance,
-#                                                                   experiment.allowable_time_window))
-#     return render_template('index.html')
-#
-# @blueprint.route('/real_time_data_update', methods=["GET", "POST"])
-# def load_ajax():
-#     if request.method == 'POST':
-#         return jsonify(force_val=random.randint(0, 64),
-#                        velocity_val=random.randint(0, 64),
-#                        distance_val=random.randint(0, 32),
-#                        completions_val=random.randint(0, 16))
-#
-# @blueprint.route('/sensor_data_update', methods=["GET", "POST"])
-# def retrieveSensorData():
-#     if request.method == 'POST':
-#         return jsonify(LC_val=random.randint(0, 64),
-#                        OS_1_val=random.randint(0, 64),
-#                        OS_2_val=random.randint(0, 64))
+@blueprint.route('/index/update/metadata', methods=["GET", "POST"])
+def update_metadata():
+    global manager
+    if request.method == 'POST':
+        return jsonify(remain_time=manager.remain_time,
+                       force_val=manager.metadata.pull_force,
+                       velocity_val=manager.metadata.pull_velocity,
+                       distance_val=manager.metadata.pull_distance,
+                       completions_val=manager.metadata.completions)
+
+
+@blueprint.route('/index/interrupt', methods=["GET", "POST"])
+def interrupt():
+    global manager
+    if request.method == 'POST':
+        manager.interrupt = True
+        return jsonify(msg="Process Interrupted")
 
 
 @blueprint.route('/<template>')

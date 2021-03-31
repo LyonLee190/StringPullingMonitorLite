@@ -18,6 +18,7 @@ $(document).ready(function() {
         responsive:true,
         hideHover: 'auto'
     });
+
     var velocity_chart = Morris.Line({
         element: 'velocity-chart',
         data: pull_velocity,
@@ -30,6 +31,7 @@ $(document).ready(function() {
         responsive:true,
         hideHover: 'auto'
     });
+
     var distance_chart = Morris.Line({
         element: 'distance-chart',
         data: pull_distance,
@@ -42,6 +44,7 @@ $(document).ready(function() {
         responsive:true,
         hideHover: 'auto'
     });
+
     var completions_chart = Morris.Line({
         element: 'completions-chart',
         data: completions,
@@ -56,14 +59,15 @@ $(document).ready(function() {
     });
 
     setInterval(function() {
-//        alert("Hi there, Ajax");
         $.ajax({
             type: "POST",
-            url: "/real_time_data_update",
+            url: "/index/update/metadata",
             dataType: "json",
             success: function(data) {
-            current = new Date();
-                if (pull_force.length == 30) {
+                document.getElementById("remain_time").value = parseFloat(data.remain_time).toFixed(2);
+
+                current = new Date();
+                if (pull_force.length == 16) {
                     pull_force.shift();
                     pull_velocity.shift();
                     pull_distance.shift();
@@ -80,6 +84,16 @@ $(document).ready(function() {
                 completions_chart.setData(completions);
             }
         });
-//        alert("Sayonara, Ajax");
-    }, 1000);
+    }, 800);
+
+    $("#interrupt").click(function(e) {
+        $.ajax({
+            type: "POST",
+            url: "/index/interrupt",
+            dataType: "json",
+            success: function(data) {
+                window.alert(data.msg);
+            }
+        });
+    });
 });

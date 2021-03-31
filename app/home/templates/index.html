@@ -19,127 +19,22 @@
                 <div class="page-wrapper">
                     <!-- [ Main Content ] start -->
                     <div class="row">
-                        <!--[ Training Parameter Setting ] start-->
-                        <script>
-                            function updateInput(id, val) {
-                                document.getElementById(id).value=val;
-                            }
-                        </script>
-                        <div class="col-xl-8 col-md-6">
-                            <div class="card Recent-Users">
-                                <div class="card-header">
-                                    <h5>Training Parameter</h5>
-                                </div>
-                                <form method="POST">
-                                    <div class="col-md-6" style="padding-left: 30px; padding-right: 30px; padding-top: 25px">
-                                        <div class="input-group input-group-sm mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Experiment ID</span>
-                                            </div>
-                                            <input type="text" class="form-control" name="experiment_ID" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
-                                        </div>
-                                        <div class="input-group input-group-sm mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Subject ID</span>
-                                            </div>
-                                            <input type="text" class="form-control" name="subject_ID" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
-                                        </div>
-                                        <div class="input-group input-group-sm mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Date</span>
-                                            </div>
-                                            <input type="date" class="form-control" name="date" aria-label="Small" aria-describedby="inputGroup-sizing-sm" value ="<?php echo date('Y-m-d') ?>" required>
-                                        </div>
-                                        <div class="input-group input-group-sm mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Duration</span>
-                                            </div>
-                                            <input type="number" class="form-control" name="duration" min="0" aria-label="Small" aria-describedby="inputGroup-sizing-sm" required>
-                                            <div class="input-group-prepend">
-                                                    <span class="input-group-text">s</span>
-                                            </div>
-                                        </div>
-                                        <div class="input-group input-group-sm mb-3">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">Comment</span>
-                                            </div>
-                                            <input type="text" class="form-control" name="comment" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6" style="padding-left: 30px; padding-right: 30px">
-                                            <label for="force_r">Required Force</label>
-                                            <input type="range" class="custom-range" id="force_r" onchange="updateInput('force_i', this.value);">
-                                            <label for="distance_r">Required Distance</label>
-                                            <input type="range" class="custom-range" id="distance_r" onchange="updateInput('distance_i', this.value);">
-                                            <label for="time_window_r">Allowable Time Window</label>
-                                            <input type="range" class="custom-range" id="time_window_r" onchange="updateInput('time_window_i', this.value);">
-                                        </div>
-                                        <div class="col-md-6" style="padding-left: 30px; padding-right: 30px; padding-top: 25px">
-                                            <div class="input-group input-group-sm mb-3">
-                                                <input type="number" name="input_force" id="force_i" onchange="updateInput('force_r', this.value);" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">N</span>
-                                                </div>
-                                            </div>
-                                            <div class="input-group input-group-sm mb-3">
-                                                <input type="number" name="input_distance" id="distance_i" onchange="updateInput('distance_r', this.value);" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">cm</span>
-                                                </div>
-                                            </div>
-                                            <div class="input-group input-group-sm mb-3">
-                                                <input type="number" name="input_time_window" id="time_window_i" onchange="updateInput('time_window_r', this.value);" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">s</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <script>
-                                        var force_r = document.getElementById('force_r');
-                                        force_r.min = "0";
-                                        force_r.max = "64";
-                                        force_r.step = "0.01";
-                                        force_r.value = "32";
-                                        var force_i = document.getElementById('force_i');
-                                        force_i.min = force_r.min;
-                                        force_i.max = force_r.max;
-                                        force_i.step = force_r.step;
-                                        force_i.value = force_r.value;
-                                        var distance_r = document.getElementById('distance_r');
-                                        distance_r.min = "0";
-                                        distance_r.max = "32";
-                                        distance_r.step = "0.01";
-                                        distance_r.value = "16";
-                                        var distance_i = document.getElementById('distance_i');
-                                        distance_i.min = distance_r.min;
-                                        distance_i.max = distance_r.max;
-                                        distance_i.step = distance_r.step;
-                                        distance_i.value = distance_r.value;
-                                        var time_window_r = document.getElementById('time_window_r');
-                                        time_window_r.min = "0";
-                                        time_window_r.max = "360";
-                                        time_window_r.step = "1";
-                                        time_window_r.value = "180";
-                                        var distance_i = document.getElementById('time_window_i');
-                                        time_window_i.min = time_window_r.min;
-                                        time_window_i.max = time_window_r.max;
-                                        time_window_i.step = time_window_r.step;
-                                        time_window_i.value = time_window_r.value;
-                                    </script>
-                                    <div class="col-md-6">
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <!--[ Training Parameter Setting ] end-->
                         <!--[ Real Time Data ] start-->
                         <div class="col-xl-8 col-md-6">
                             <div class="card">
                                 <div class="card-header">
                                     <h5>Real Time Data</h5>
+                                </div>
+                                <div class="card-block">
+                                    <div class="input-group input-group-sm mb-3">
+                                    <div class="input-group-prepend">
+                                            <span class="input-group-text">Remaining Time</span>
+                                    </div>
+                                    <input type="number" id="remain_time" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" disabled>
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">S</span>
+                                    </div>
+                                    </div>
                                 </div>
                                 <div class="card-block">
                                     <label for="force-chart">Pull Force</label>
@@ -150,82 +45,11 @@
                                     <div id="distance-chart" style="height:150px"></div>
                                     <label for="completions-chart">Completion</label>
                                     <div id="completions-chart" style="height:150px"></div>
+                                    <button id="interrupt" class="btn btn-primary">Interrupt</button>
                                 </div>
                             </div>
                         </div>
                         <!--[ Real Time Data ] end-->
-                        <!--[ Subject Info ] start-->
-                        <div class="col-xl-8 col-md-6">
-                            <div class="card Recent-Users">
-                                <div class="card-header">
-                                    <h5>Subject Info</h5>
-                                </div>
-                                <div class="card-block px-0 py-3">
-                                    <div class="table-responsive">
-                                        <table class="table table-hover">
-                                            <tbody>
-                                                <tr class="unread">
-                                                    <td><img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/Jerry.jpg" alt="activity-user"></td>
-                                                    <td>
-                                                        <h6 class="mb-1">Isabella Christensen</h6>
-                                                        <p class="m-0">Lorem Ipsum is simply…</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>11 MAY 12:56</h6>
-                                                    </td>
-                                                    <td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td>
-                                                </tr>
-                                                <tr class="unread">
-                                                    <td><img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/Jerry.jpg" alt="activity-user"></td>
-                                                    <td>
-                                                        <h6 class="mb-1">Mathilde Andersen</h6>
-                                                        <p class="m-0">Lorem Ipsum is simply text of…</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="text-muted"><i class="fas fa-circle text-c-red f-10 m-r-15"></i>11 MAY 10:35</h6>
-                                                    </td>
-                                                    <td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td>
-                                                </tr>
-                                                <tr class="unread">
-                                                    <td><img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/Jerry.jpg" alt="activity-user"></td>
-                                                    <td>
-                                                        <h6 class="mb-1">Karla Sorensen</h6>
-                                                        <p class="m-0">Lorem Ipsum is simply…</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>9 MAY 17:38</h6>
-                                                    </td>
-                                                    <td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td>
-                                                </tr>
-                                                <tr class="unread">
-                                                    <td><img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/Jerry.jpg" alt="activity-user"></td>
-                                                    <td>
-                                                        <h6 class="mb-1">Ida Jorgensen</h6>
-                                                        <p class="m-0">Lorem Ipsum is simply text of…</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="text-muted f-w-300"><i class="fas fa-circle text-c-red f-10 m-r-15"></i>19 MAY 12:56</h6>
-                                                    </td>
-                                                    <td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td>
-                                                </tr>
-                                                <tr class="unread">
-                                                    <td><img class="rounded-circle" style="width:40px;" src="/static/assets/images/user/Jerry.jpg" alt="activity-user"></td>
-                                                    <td>
-                                                        <h6 class="mb-1">Albert Andersen</h6>
-                                                        <p class="m-0">Lorem Ipsum is simply dummy…</p>
-                                                    </td>
-                                                    <td>
-                                                        <h6 class="text-muted"><i class="fas fa-circle text-c-green f-10 m-r-15"></i>21 July 12:56</h6>
-                                                    </td>
-                                                    <td><a href="#!" class="label theme-bg2 text-white f-12">Reject</a><a href="#!" class="label theme-bg text-white f-12">Approve</a></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--[ Subject Info ] end-->
                     </div>
                     <!-- [ Main Content ] end -->
                 </div>
@@ -240,5 +64,4 @@
     <script src="/static/assets/plugins/chart-morris/js/raphael.min.js"></script>
     <script src="/static/assets/plugins/chart-morris/js/morris.min.js"></script>
     <script src="/static/assets/js/pages/line-chart.js"></script>
-
 {% endblock javascripts %}

@@ -51,7 +51,7 @@ $(document).ready(function() {
                     var content = "";
                     for (var i = 0; i < time_stamp.length; i++) {
                         content += "<tr>";
-                        content += "<td>" + time_stamp[i] + "</td>" ;
+                        content += "<td>" + time_stamp[i].split(",")[1] + "</td>" ;
                         content += "<td>" + pull_force[i] + "</td>" ;
                         content += "<td>" + pull_velocity[i] + "</td>" ;
                         content += "<td>" + pull_distance[i] + "</td>" ;
@@ -64,4 +64,41 @@ $(document).ready(function() {
             })
         )
     }
-})
+
+    $("#download").click(function(e) {
+        download_table_as_csv("metadata");
+    });
+});
+
+// https://stackoverflow.com/questions/15547198/export-html-table-to-csv
+// Quick and simple export target #table_id into a csv
+function download_table_as_csv(table_id, separator = ',') {
+    // Select rows from table_id
+    var rows = document.querySelectorAll('table#' + table_id + ' tr');
+    // Construct csv
+    var csv = [];
+    for (var i = 0; i < rows.length; i++) {
+        var row = [], cols = rows[i].querySelectorAll('td, th');
+        for (var j = 0; j < cols.length; j++) {
+            // Clean innertext to remove multiple spaces and jumpline (break csv)
+            var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
+            // Push escaped string
+            row.push(data);
+        }
+        csv.push(row.join(separator));
+    }
+    var csv_string = csv.join('\n');
+
+    var experiment_id = document.getElementById("experiment_id").value;
+    var subject_id = document.getElementById("subject_id").value;
+    // Download it
+    var filename = experiment_id + '_' + subject_id + '.csv';
+    var link = document.createElement('a');
+    link.style.display = 'none';
+    link.setAttribute('target', '_blank');
+    link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv_string));
+    link.setAttribute('download', filename);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
