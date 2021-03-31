@@ -39,7 +39,11 @@ def configure():
 @login_required
 def upload_experiment_info():
     global train_configure
+    global manager
     if request.method == 'POST':
+        if manager.remain_time > 0:
+            return jsonify(msg="The hardware is busy, for more info please go to the main page.")
+        
         try:
             exp_info = Experiment()
             exp_info.id = request.form["experiment_id"]
