@@ -15,7 +15,10 @@ from app.base.models import User, Configure, Experiment, Subject, RealTimeData
 
 from datetime import datetime
 
+from .hardware_manager import hardwareManager
 from .manager import Manager
+from .hx711 import HX711
+
 
 # global variables
 train_configure = Configure()
