@@ -142,8 +142,9 @@ The *Home* blueprint handles UI Kit pages for authenticated users. This is the p
 ## Credits & Links
 
 - [Flask Framework](https://www.palletsprojects.com/p/flask/) - The official website
-- [Boilerplate Code](https://appseed.us/boilerplate-code) - Index provided by **AppSeed**
-- [Boilerplate Code](https://github.com/app-generator/boilerplate-code) - Index published on Github
-- [Datta Able Flask](https://appseed.us/admin-dashboards/flask-dashboard-dattaable) - Template for the webserver
+- [Datta Able Flask](https://appseed.us/admin-dashboards/flask-dashboard-dattaable) - Webserver Template
 
 <br />
+
+---
+[String Pulling Monitor Lite](https://github.com/LyonLee190/StringPullingMonitorLite/) - Provided by [LyonLee190](https://github.com/LyonLee190), [lovettxh](https://github.com/lovettxh), [Feiniu6ABC](https://github.com/Feiniu6ABC), and [cccrrrccc](https://github.com/cccrrrccc).
