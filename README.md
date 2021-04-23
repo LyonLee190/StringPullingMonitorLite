@@ -1,14 +1,14 @@
 # String Pulling Monitor Lite
 
-![Project Flayer](Doc/SPT Flyer.png)
+![Project Flayer](https://github.com/LyonLee190/StringPullingMonitorLite/blob/main/Doc/SPT%20Flyer.png)
 
 <br />
 
 > Links
 
 - [Video Intro](https://www.youtube.com/watch?v=PjfuTH70crM)
-- [Project Documentations]()
-- [Webserver Demo with Random Generated Data]()
+- [Project Documentations](https://github.com/LyonLee190/StringPullingMonitorLite/tree/main/Doc)
+- [Webserver Demo with Random Generated Data](https://github.com/LyonLee190/StringPullingMonitorLite/tree/Ang)
 
 <br />
 
