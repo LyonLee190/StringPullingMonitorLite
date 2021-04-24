@@ -147,4 +147,4 @@ The *Home* blueprint handles UI Kit pages for authenticated users. This is the p
 <br />
 
 ---
-[String Pulling Monitor Lite](https://github.com/LyonLee190/StringPullingMonitorLite/) - Provided by [LyonLee190](https://github.com/LyonLee190), [lovettxh](https://github.com/lovettxh), [Feiniu6ABC](https://github.com/Feiniu6ABC), and [cccrrrccc](https://github.com/cccrrrccc).
+[String Pulling Monitor Lite](https://github.com/LyonLee190/StringPullingMonitorLite/) - Designed by [LyonLee190](https://github.com/LyonLee190), [lovettxh](https://github.com/lovettxh), [Feiniu6ABC](https://github.com/Feiniu6ABC), and [cccrrrccc](https://github.com/cccrrrccc).
