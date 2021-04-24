@@ -1,13 +1,14 @@
 # String Pulling Monitor Lite
 
-![Project Flayer](https://github.com/LyonLee190/StringPullingMonitorLite/blob/main/Doc/SPT%20Flyer.png)
+![Project Flayer](https://github.com/LyonLee190/StringPullingMonitorLite/blob/main/doc/SPT%20Flyer.png)
 
 <br />
 
 > Links
 
 - [Video Intro](https://www.youtube.com/watch?v=PjfuTH70crM)
-- [Project Documentations](https://github.com/LyonLee190/StringPullingMonitorLite/tree/main/Doc)
+- [Project Documentations](https://github.com/LyonLee190/StringPullingMonitorLite/tree/main/doc)
+- [Wiring Schematic](https://github.com/LyonLee190/StringPullingMonitorLite/tree/main/doc/Wiring_Schematic.pdf)
 - [Webserver Demo with Random Generated Data](https://github.com/LyonLee190/StringPullingMonitorLite/tree/Ang)
 
 <br />
