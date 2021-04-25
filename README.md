@@ -115,7 +115,7 @@ The *Home* blueprint handles UI Kit pages for authenticated users. This is the p
    |    |-- base/                     # Base Blueprint - handles the authentication
    |    |-- home/                     # Home Blueprint - serve app pages (private area)
    |          |
-   |          |-- templates/           # UI Kit Pages
+   |          |-- templates/          # UI Kit Pages
    |              |
    |              |-- index.html      # Default page
    |              |-- page-404.html   # Error 404 page
